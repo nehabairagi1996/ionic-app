@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "319521003929",
+    "project_id": "mystoragenotificationapp",
+    "storage_bucket": "mystoragenotificationapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319521003929:android:795ff6a5369e6fae975b08",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgPXJQijUrAC_-JPBXyDr-E8F9R0lTvio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
