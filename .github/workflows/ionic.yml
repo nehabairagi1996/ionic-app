@@ -25,12 +25,11 @@ jobs:
       - run: npx cap sync android
 
       - uses: actions/setup-java@v3
-      
-      - name: Check Java version
-        run: java -version
-        
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      - name: Check Java version
+        run: java -version
 
       - run: cd android && chmod +x gradlew && ./gradlew assembleDebug
