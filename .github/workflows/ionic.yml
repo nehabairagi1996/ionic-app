@@ -2,7 +2,7 @@ name: Ionic CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -11,25 +11,40 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # ✅ FIXED NODE VERSION
+      # ✅ Setup Node first
       - uses: actions/setup-node@v3
         with:
           node-version: 22
 
-      - run: npm install
-      - run: npm run build
-
-      - run: npm install -g @ionic/cli
-      - run: ionic build
-
-      - run: npx cap sync android
-
-      - uses: actions/setup-java@v3
+      # ✅ Setup Java BEFORE any Android/Gradle step
+      - name: Set up Java
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      # ✅ Verify Java
       - name: Check Java version
         run: java -version
 
-      - run: cd android && chmod +x gradlew && ./gradlew assembleDebug
+      # Install dependencies
+      - run: npm install
+
+      # Build web app
+      - run: npm run build
+
+      # Install Ionic CLI
+      - run: npm install -g @ionic/cli
+
+      # Build Ionic app
+      - run: ionic build
+
+      # Sync Capacitor
+      - run: npx cap sync android
+
+      # Build Android APK
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
