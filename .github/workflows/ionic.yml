@@ -11,12 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # ✅ Setup Node first
+      # ✅ Setup Node
       - uses: actions/setup-node@v3
         with:
           node-version: 22
+          cache: 'npm'
 
-      # ✅ Setup Java BEFORE any Android/Gradle step
+      # ✅ Setup Java
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
@@ -28,29 +29,31 @@ jobs:
         run: java -version
 
       # Install dependencies
-      - run: npm install
-
-      # Build web app
-      - run: npm run build
+      - name: Install Dependencies
+        run: npm install
 
       # Install Ionic CLI
-      - run: npm install -g @ionic/cli
+      - name: Install Ionic CLI
+        run: npm install -g @ionic/cli
 
       # Build Ionic app
-      - run: ionic build
+      - name: Build Web App
+        run: ionic build
 
       # Sync Capacitor
-      - run: npx cap sync android
+      - name: Capacitor Sync
+        run: npx cap sync android
 
-      # Build Android APK
+      # Build APK
       - name: Build APK
         run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
 
-          - name: Upload APK
-           uses: actions/upload-artifact@v4
-           with:
-        name: app-debug-apk
-        path: android/app/build/outputs/apk/debug/app-debug.apk
+      # ✅ Upload APK (FIXED POSITION)
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
